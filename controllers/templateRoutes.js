@@ -4,6 +4,10 @@ const withAuth = require('../utils/auth');
 
 // TODO: Create a sign in registration route to handle new user registration
 
+router.get('/signup', (req, res) => {
+    res.render('signup');
+});
+
 router.get('/', withAuth, async (req, res) => {
     try {
             // Probably DO NOT want this data being returned
