@@ -8,6 +8,30 @@ router.get('/signup', (req, res) => {
     res.render('signup');
 });
 
+router.post('/signup', async (req, res) => {
+    try {
+        const newUser = await User.create({
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            password: req.body.password,
+        });
+
+        req.session.save(() => {
+            req.session.user_id = newUser.id;
+            req.session.logged_in = true;
+            
+            //res.status(200).json(newUser);
+            res.redirect('/');
+            return;
+            
+        });
+
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
+
 router.get('/', withAuth, async (req, res) => {
     try {
             // Probably DO NOT want this data being returned
